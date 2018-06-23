@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zmf.realty.dao.ProjectImageMapper">
+    <resultMap id="BaseResultMap" type="com.zmf.realty.model.ProjectImage">
+        <id column="image_id" property="imageId" jdbcType="VARCHAR"/>
+        <result column="filepath" property="filepath" jdbcType="VARCHAR"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        image_id, filepath, project_id
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from project_image
+        where image_id = #{imageId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getImagesByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM project_image
+        WHERE project_id = #{projectId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        DELETE FROM project_image
+        WHERE image_id = #{imageId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.zmf.realty.model.ProjectImage">
+        INSERT INTO project_image (image_id, filepath, project_id
+        )
+        VALUES (#{imageId,jdbcType=VARCHAR}, #{filepath,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.zmf.realty.model.ProjectImage">
+        insert into project_image
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageId != null">
+                image_id,
+            </if>
+            <if test="filepath != null">
+                filepath,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageId != null">
+                #{imageId,jdbcType=VARCHAR},
+            </if>
+            <if test="filepath != null">
+                #{filepath,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getFirstImageByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM project_image
+        WHERE project_id = #{projectId}
+        ORDER BY time ASC
+        LIMIT 1
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zmf.realty.model.ProjectImage">
+        update project_image
+        <set>
+            <if test="filepath != null">
+                filepath = #{filepath,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null">
+                project_id = #{projectId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where image_id = #{imageId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.zmf.realty.model.ProjectImage">
+        UPDATE project_image
+        SET filepath   = #{filepath,jdbcType=VARCHAR},
+            project_id = #{projectId,jdbcType=VARCHAR}
+        WHERE image_id = #{imageId,jdbcType=VARCHAR}
+    </update>
+</mapper>

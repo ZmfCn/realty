@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zmf.realty.dao.HouseTypeImageMapper">
+    <resultMap id="BaseResultMap" type="com.zmf.realty.model.HouseTypeImage">
+        <id column="image_id" property="imageId" jdbcType="VARCHAR"/>
+        <result column="filepath" property="filepath" jdbcType="VARCHAR"/>
+        <result column="house_type_id" property="houseTypeId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        image_id, filepath, house_type_id
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from house_type_image
+        where image_id = #{imageId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getImagesByHouseTypeId" resultMap="BaseResultMap" parameterType="String">
+        SELECT *
+        FROM house_type_image
+        WHERE house_type_id = #{houseTypeId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        DELETE FROM house_type_image
+        WHERE image_id = #{imageId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.zmf.realty.model.HouseTypeImage">
+        INSERT INTO house_type_image (image_id, filepath, house_type_id
+        )
+        VALUES (#{imageId,jdbcType=VARCHAR}, #{filepath,jdbcType=VARCHAR}, #{houseTypeId,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.zmf.realty.model.HouseTypeImage">
+        insert into house_type_image
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageId != null">
+                image_id,
+            </if>
+            <if test="filepath != null">
+                filepath,
+            </if>
+            <if test="houseTypeId != null">
+                house_type_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageId != null">
+                #{imageId,jdbcType=VARCHAR},
+            </if>
+            <if test="filepath != null">
+                #{filepath,jdbcType=VARCHAR},
+            </if>
+            <if test="houseTypeId != null">
+                #{houseTypeId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zmf.realty.model.HouseTypeImage">
+        update house_type_image
+        <set>
+            <if test="filepath != null">
+                filepath = #{filepath,jdbcType=VARCHAR},
+            </if>
+            <if test="houseTypeId != null">
+                house_type_id = #{houseTypeId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where image_id = #{imageId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.zmf.realty.model.HouseTypeImage">
+        UPDATE house_type_image
+        SET filepath      = #{filepath,jdbcType=VARCHAR},
+            house_type_id = #{houseTypeId,jdbcType=VARCHAR}
+        WHERE image_id = #{imageId,jdbcType=VARCHAR}
+    </update>
+</mapper>

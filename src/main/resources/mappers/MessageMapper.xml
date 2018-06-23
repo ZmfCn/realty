@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zmf.realty.dao.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.zmf.realty.model.Message" >
+    <id column="message_id" property="messageId" jdbcType="VARCHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="is_readed" property="isReaded" jdbcType="BIT" />
+    <result column="house_type_id" property="houseTypeId" jdbcType="VARCHAR" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    message_id, openid, content, is_readed, house_type_id, datetime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from message
+    where message_id = #{messageId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from message
+    where message_id = #{messageId,jdbcType=VARCHAR}
+  </delete>
+
+
+  <insert id="insert" parameterType="com.zmf.realty.model.Message" >
+    insert into message (message_id, openid, content, 
+      is_readed, house_type_id, datetime
+      )
+    values (#{messageId,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{isReaded,jdbcType=BIT}, #{houseTypeId,jdbcType=VARCHAR}, #{datetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.zmf.realty.model.Message" >
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        message_id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="isReaded != null" >
+        is_readed,
+      </if>
+      <if test="houseTypeId != null" >
+        house_type_id,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        #{messageId,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isReaded != null" >
+        #{isReaded,jdbcType=BIT},
+      </if>
+      <if test="houseTypeId != null" >
+        #{houseTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zmf.realty.model.Message" >
+    update message
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isReaded != null" >
+        is_readed = #{isReaded,jdbcType=BIT},
+      </if>
+      <if test="houseTypeId != null" >
+        house_type_id = #{houseTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zmf.realty.model.Message" >
+    update message
+    set openid = #{openid,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      is_readed = #{isReaded,jdbcType=BIT},
+      house_type_id = #{houseTypeId,jdbcType=VARCHAR},
+      datetime = #{datetime,jdbcType=TIMESTAMP}
+    where message_id = #{messageId,jdbcType=VARCHAR}
+  </update>
+</mapper>

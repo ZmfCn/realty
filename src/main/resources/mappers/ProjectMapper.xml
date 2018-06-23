@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zmf.realty.dao.ProjectMapper">
+
+    <resultMap id="BaseResultMap" type="com.zmf.realty.model.Project">
+        <id column="project_id" property="projectId" jdbcType="VARCHAR"/>
+        <result column="deal_amount" property="dealAmount" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="size" property="size" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="location" property="location" jdbcType="VARCHAR"/>
+        <result column="tags" property="tags" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="is_show" property="isShow" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <resultMap id="ResultMapWithBLOBs" type="com.zmf.realty.model.ProjectWithBLOBs" extends="BaseResultMap">
+        <result column="reason" property="reason" jdbcType="LONGVARCHAR"/>
+        <result column="detail" property="detail" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        project_id, deal_amount, name, size, price, address, location, tags, created_at,
+        telephone, is_show
+    </sql>
+
+    <sql id="Blob_Column_List">
+        reason, detail
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from project
+        where project_id = #{projectId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getAllProjects" resultMap="ResultMapWithBLOBs">
+        SELECT *
+        FROM project
+    </select>
+
+    <select id="getProjectsByKeyword" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        SELECT *
+        FROM project
+        WHERE name LIKE % #{keyword} % OR size LIKE % #{keyword} % OR
+              price LIKE % #{keyword} % OR address LIKE % #{keyword} % OR
+              reason LIKE % #{keyword} % OR tags LIKE % #{keyword} % OR
+              detail LIKE % #{keyword} % OR telephone LIKE % #{keyword} %
+    </select>
+
+    <select id="getProjectsToShow" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        SELECT *
+        FROM project
+        WHERE is_show = TRUE
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        DELETE FROM project
+        WHERE project_id = #{projectId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.zmf.realty.model.ProjectWithBLOBs">
+        INSERT INTO project (project_id, deal_amount, name,
+                             size, price, address,
+                             location, tags, created_at,
+                             telephone, is_show, reason,
+                             detail)
+        VALUES (#{projectId,jdbcType=VARCHAR}, #{dealAmount,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+                                               #{size,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR},
+                                               #{address,jdbcType=VARCHAR},
+                                               #{location,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR},
+                                               #{createdAt,jdbcType=TIMESTAMP},
+                                               #{telephone,jdbcType=VARCHAR}, #{isShow,jdbcType=TINYINT},
+                #{reason,jdbcType=LONGVARCHAR},
+                #{detail,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.zmf.realty.model.ProjectWithBLOBs">
+        insert into project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="dealAmount != null">
+                deal_amount,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="size != null">
+                size,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="tags != null">
+                tags,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="isShow != null">
+                is_show,
+            </if>
+            <if test="reason != null">
+                reason,
+            </if>
+            <if test="detail != null">
+                detail,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">
+                #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="dealAmount != null">
+                #{dealAmount,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                #{size,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="isShow != null">
+                #{isShow,jdbcType=TINYINT},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="detail != null">
+                #{detail,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zmf.realty.model.ProjectWithBLOBs">
+        update project
+        <set>
+            <if test="dealAmount != null">
+                deal_amount = #{dealAmount,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                size = #{size,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                location = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                tags = #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="isShow != null">
+                is_show = #{isShow,jdbcType=TINYINT},
+            </if>
+            <if test="reason != null">
+                reason = #{reason,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="detail != null">
+                detail = #{detail,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where project_id = #{projectId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zmf.realty.model.ProjectWithBLOBs">
+        UPDATE project
+        SET deal_amount = #{dealAmount,jdbcType=INTEGER},
+            name        = #{name,jdbcType=VARCHAR},
+            size        = #{size,jdbcType=VARCHAR},
+            price       = #{price,jdbcType=VARCHAR},
+            address     = #{address,jdbcType=VARCHAR},
+            location    = #{location,jdbcType=VARCHAR},
+            tags        = #{tags,jdbcType=VARCHAR},
+            created_at  = #{createdAt,jdbcType=TIMESTAMP},
+            telephone   = #{telephone,jdbcType=VARCHAR},
+            is_show     = #{isShow,jdbcType=TINYINT},
+            reason      = #{reason,jdbcType=LONGVARCHAR},
+            detail      = #{detail,jdbcType=LONGVARCHAR}
+        WHERE project_id = #{projectId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="setProjectShow" parameterType="map">
+        UPDATE project
+        SET is_show = #{is_show}
+        WHERE project_id = #{project_id}
+    </update>
+</mapper>

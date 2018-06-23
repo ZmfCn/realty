@@ -1,0 +1,10 @@
+app:
+  origin:
+    name: Access-Control-Allow-Origin
+    value: *
+  methods:
+    name: Access-Control-Allow-Methods
+    value: GET, POST, PUT, DELETE
+  headers:
+    name: Access-Control-Allow-Headers
+    value: x-auth-token, content-type, x_request_with

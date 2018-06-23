@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zmf.realty.dao.FollowMapper">
+    <resultMap id="BaseResultMap" type="com.zmf.realty.model.Follow">
+        <id column="follow_id" property="followId" jdbcType="VARCHAR"/>
+        <result column="user_openid" property="userOpenid" jdbcType="VARCHAR"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR"/>
+        <result column="datetime" property="datetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        follow_id, user_openid, project_id, datetime
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from follow
+        where follow_id = #{followId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getFollowAmountByProjectId" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM follow
+        WHERE follow_id = #{projectId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        DELETE FROM follow
+        WHERE follow_id = #{followId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.zmf.realty.model.Follow">
+        INSERT INTO follow (follow_id, user_openid, project_id,
+                            datetime)
+        VALUES (#{followId,jdbcType=VARCHAR}, #{userOpenid,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
+                #{datetime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.zmf.realty.model.Follow">
+        insert into follow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="followId != null">
+                follow_id,
+            </if>
+            <if test="userOpenid != null">
+                user_openid,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="datetime != null">
+                datetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="followId != null">
+                #{followId,jdbcType=VARCHAR},
+            </if>
+            <if test="userOpenid != null">
+                #{userOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="datetime != null">
+                #{datetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zmf.realty.model.Follow">
+        update follow
+        <set>
+            <if test="userOpenid != null">
+                user_openid = #{userOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null">
+                project_id = #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="datetime != null">
+                datetime = #{datetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where follow_id = #{followId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.zmf.realty.model.Follow">
+        UPDATE follow
+        SET user_openid = #{userOpenid,jdbcType=VARCHAR},
+            project_id  = #{projectId,jdbcType=VARCHAR},
+            datetime    = #{datetime,jdbcType=TIMESTAMP}
+        WHERE follow_id = #{followId,jdbcType=VARCHAR}
+    </update>
+</mapper>

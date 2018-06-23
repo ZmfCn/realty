@@ -1,0 +1,36 @@
+server:
+  port: 5000
+
+spring:
+  output:
+    ansi:
+      enabled: always
+  aop:
+    auto: true
+    proxy-target-class: true
+  servlet:
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 100Mb
+      enabled: true
+      resolve-lazily: false
+
+
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.zmf.realty.model
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+
+logging:
+  level:
+    com.zmf.realty.dao: TRACE
+  file: /var/log/realty/realty.log
+
+filepath:
+  project-image-root-path: /var/www/html/download/realty/project
+  house-type-image-root-path: /var/www/html/download/realty/house_type
+  www-service-root-path: /var/www/html
+  server-url-root: http://120.78.187.115:80/
+#  server-url-root: http://127.0.0.1:80

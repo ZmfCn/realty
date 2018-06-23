@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zmf.realty.dao.HouseTypeMapper">
+    <resultMap id="BaseResultMap" type="com.zmf.realty.model.HouseType">
+        <id column="type_id" property="typeId" jdbcType="VARCHAR"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="size" property="size" jdbcType="VARCHAR"/>
+        <result column="discount" property="discount" jdbcType="VARCHAR"/>
+        <result column="orientation" property="orientation" jdbcType="VARCHAR"/>
+        <result column="decoration" property="decoration" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="tags" property="tags" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.zmf.realty.model.HouseType" extends="BaseResultMap">
+        <result column="reason" property="reason" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        type_id, project_id, price, name, size, discount, orientation, decoration, telephone,
+        tags
+    </sql>
+    <sql id="Blob_Column_List">
+        reason
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from house_type
+        where type_id = #{typeId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getAllHouseTypesByProjectId" parameterType="String" resultMap="ResultMapWithBLOBs">
+        SELECT *
+        FROM house_type
+        WHERE project_id = #{projectId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        DELETE FROM house_type
+        WHERE type_id = #{typeId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.zmf.realty.model.HouseType">
+        INSERT INTO house_type (type_id, project_id, price,
+                                name, size, discount,
+                                orientation, decoration, telephone,
+                                tags, reason)
+        VALUES (#{typeId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR},
+                                            #{name,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR},
+                                            #{discount,jdbcType=VARCHAR},
+                                            #{orientation,jdbcType=VARCHAR}, #{decoration,jdbcType=VARCHAR},
+                                            #{telephone,jdbcType=VARCHAR},
+                                            #{tags,jdbcType=VARCHAR}, #{reason,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.zmf.realty.model.HouseType">
+        insert into house_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                type_id,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="size != null">
+                size,
+            </if>
+            <if test="discount != null">
+                discount,
+            </if>
+            <if test="orientation != null">
+                orientation,
+            </if>
+            <if test="decoration != null">
+                decoration,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="tags != null">
+                tags,
+            </if>
+            <if test="reason != null">
+                reason,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                #{typeId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                #{size,jdbcType=VARCHAR},
+            </if>
+            <if test="discount != null">
+                #{discount,jdbcType=VARCHAR},
+            </if>
+            <if test="orientation != null">
+                #{orientation,jdbcType=VARCHAR},
+            </if>
+            <if test="decoration != null">
+                #{decoration,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zmf.realty.model.HouseType">
+        update house_type
+        <set>
+            <if test="projectId != null">
+                project_id = #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                size = #{size,jdbcType=VARCHAR},
+            </if>
+            <if test="discount != null">
+                discount = #{discount,jdbcType=VARCHAR},
+            </if>
+            <if test="orientation != null">
+                orientation = #{orientation,jdbcType=VARCHAR},
+            </if>
+            <if test="decoration != null">
+                decoration = #{decoration,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                tags = #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                reason = #{reason,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where type_id = #{typeId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zmf.realty.model.HouseType">
+        UPDATE house_type
+        SET project_id  = #{projectId,jdbcType=VARCHAR},
+            price       = #{price,jdbcType=VARCHAR},
+            name        = #{name,jdbcType=VARCHAR},
+            size        = #{size,jdbcType=VARCHAR},
+            discount    = #{discount,jdbcType=VARCHAR},
+            orientation = #{orientation,jdbcType=VARCHAR},
+            decoration  = #{decoration,jdbcType=VARCHAR},
+            telephone   = #{telephone,jdbcType=VARCHAR},
+            tags        = #{tags,jdbcType=VARCHAR},
+            reason      = #{reason,jdbcType=LONGVARCHAR}
+        WHERE type_id = #{typeId,jdbcType=VARCHAR}
+    </update>
+</mapper>
