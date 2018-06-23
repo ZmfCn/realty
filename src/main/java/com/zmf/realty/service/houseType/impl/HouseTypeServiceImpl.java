@@ -93,6 +93,6 @@ public class HouseTypeServiceImpl implements HouseTypeService {
                 jsonObject.getString("size"), jsonObject.getString("discount"),
                 jsonObject.getString("orientation"), jsonObject.getString("decoration_info"),
                 jsonObject.getString("telephone"), jsonObject.getString("reason"),
-                IdUtil.generateId(), jsonObject.getString("tags"));
+                houseTypeId, jsonObject.getString("tags"));
     }
 }
