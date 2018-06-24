@@ -40,7 +40,7 @@ public class HouseTypeImageServiceImpl implements HouseTypeImageService {
         }
 
         String contentType = file.getContentType();
-        if (contentType == null || contentType.startsWith("image")) {
+        if (contentType == null || !contentType.startsWith("image")) {
             messages.put("error", "It's not a image.");
             return null;
         }
