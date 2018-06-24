@@ -91,7 +91,7 @@ public class HouseTypeServiceImpl implements HouseTypeService {
         return buildHouseType(encryptionService.decrypt(jsonObject.getString("project_id")),
                 jsonObject.getString("price"), jsonObject.getString("name"),
                 jsonObject.getString("size"), jsonObject.getString("discount"),
-                jsonObject.getString("orientation"), jsonObject.getString("decoration_info"),
+                jsonObject.getString("orientation"), jsonObject.getString("decoration"),
                 jsonObject.getString("telephone"), jsonObject.getString("reason"),
                 houseTypeId, jsonObject.getString("tags"));
     }
