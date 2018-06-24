@@ -32,5 +32,5 @@ filepath:
   project-image-root-path: /var/www/html/download/realty/project
   house-type-image-root-path: /var/www/html/download/realty/house_type
   www-service-root-path: /var/www/html
-  server-url-root: http://120.78.187.115:80/
+  server-url-root: http://120.78.187.115:80
 #  server-url-root: http://127.0.0.1:80
