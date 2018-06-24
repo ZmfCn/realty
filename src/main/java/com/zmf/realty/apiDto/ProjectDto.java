@@ -28,6 +28,8 @@ public class ProjectDto {
     private String telephone;
     @JSONField(name = "house_type_ids")
     private List<String> houseTypeIds;
+    @JSONField(name = "is_show")
+    private boolean isShow;
 
     public List<String> getHouseTypeIds() {
         return houseTypeIds;
@@ -139,5 +141,13 @@ public class ProjectDto {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public boolean isShow() {
+        return isShow;
+    }
+
+    public void setShow(boolean show) {
+        isShow = show;
     }
 }

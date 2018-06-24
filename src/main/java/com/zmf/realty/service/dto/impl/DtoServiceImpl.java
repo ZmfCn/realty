@@ -147,6 +147,7 @@ public class DtoServiceImpl implements DtoService {
         dto.setProjectId(encryptionService.encrypt(project.getProjectId()));
         dto.setLocation(project.getLocation());
         dto.setHouseTypeIds(convertFromHouseTypeList(houseTypeService.getAllHouseTypesByProjectId(project.getProjectId())));
+        dto.setShow(project.getIsShow());
         return dto;
     }
 
