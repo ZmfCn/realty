@@ -28,6 +28,13 @@ logging:
     com.zmf.realty.dao: TRACE
   file: /var/log/realty/realty.log
 
+jwt:
+  clientId: 098f6bcd4621d373cade4e832627b4f6123
+  base64Secret: MDk4ZjZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjYAAA=
+  expiresSecond: 864000
+#  expiresSecond: 10000
+
+
 filepath:
   project-image-root-path: /var/www/html/download/realty/project
   house-type-image-root-path: /var/www/html/download/realty/house_type

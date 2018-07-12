@@ -9,12 +9,6 @@ public class Message {
     private String messageId;
 
     /**
-     * This field corresponds to the database column message.openid
-     *
-     */
-    private String openid;
-
-    /**
      * This field corresponds to the database column message.content
      *
      */
@@ -27,16 +21,28 @@ public class Message {
     private Boolean isReaded;
 
     /**
-     * This field corresponds to the database column message.house_type_id
-     *
-     */
-    private String houseTypeId;
-
-    /**
      * This field corresponds to the database column message.datetime
      *
      */
     private java.sql.Timestamp datetime;
+
+    /**
+     * This field corresponds to the database column message.project_id
+     *
+     */
+    private String projectId;
+
+    /**
+     * This field corresponds to the database column message.phone
+     *
+     */
+    private String phone;
+
+    /**
+     * This field corresponds to the database column message.call
+     *
+     */
+    private String call;
 
     /**
      * This method returns the value of the database column message.message_id
@@ -56,26 +62,6 @@ public class Message {
      */
     public void setMessageId(String messageId) {
         this.messageId = messageId == null ? null : messageId.trim();
-    }
-
-    /**
-     * This method returns the value of the database column message.openid
-     *
-     * @return the value of message.openid
-     *
-     */
-    public String getOpenid() {
-        return openid;
-    }
-
-    /**
-     * This method sets the value of the database column message.openid
-     *
-     * @param openid the value for message.openid
-     *
-     */
-    public void setOpenid(String openid) {
-        this.openid = openid == null ? null : openid.trim();
     }
 
     /**
@@ -119,26 +105,6 @@ public class Message {
     }
 
     /**
-     * This method returns the value of the database column message.house_type_id
-     *
-     * @return the value of message.house_type_id
-     *
-     */
-    public String getHouseTypeId() {
-        return houseTypeId;
-    }
-
-    /**
-     * This method sets the value of the database column message.house_type_id
-     *
-     * @param houseTypeId the value for message.house_type_id
-     *
-     */
-    public void setHouseTypeId(String houseTypeId) {
-        this.houseTypeId = houseTypeId == null ? null : houseTypeId.trim();
-    }
-
-    /**
      * This method returns the value of the database column message.datetime
      *
      * @return the value of message.datetime
@@ -156,5 +122,65 @@ public class Message {
      */
     public void setDatetime(java.sql.Timestamp datetime) {
         this.datetime = datetime;
+    }
+
+    /**
+     * This method returns the value of the database column message.project_id
+     *
+     * @return the value of message.project_id
+     *
+     */
+    public String getProjectId() {
+        return projectId;
+    }
+
+    /**
+     * This method sets the value of the database column message.project_id
+     *
+     * @param projectId the value for message.project_id
+     *
+     */
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
+    }
+
+    /**
+     * This method returns the value of the database column message.phone
+     *
+     * @return the value of message.phone
+     *
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * This method sets the value of the database column message.phone
+     *
+     * @param phone the value for message.phone
+     *
+     */
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
+
+    /**
+     * This method returns the value of the database column message.call
+     *
+     * @return the value of message.call
+     *
+     */
+    public String getCall() {
+        return call;
+    }
+
+    /**
+     * This method sets the value of the database column message.call
+     *
+     * @param call the value for message.call
+     *
+     */
+    public void setCall(String call) {
+        this.call = call == null ? null : call.trim();
     }
 }

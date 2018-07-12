@@ -2,13 +2,12 @@ package com.zmf.realty.service.dto.impl;
 
 import com.zmf.realty.apiDto.HouseTypeDto;
 import com.zmf.realty.apiDto.ImageDto;
+import com.zmf.realty.apiDto.MessageDto;
 import com.zmf.realty.apiDto.ProjectDto;
+import com.zmf.realty.dao.MessageMapper;
 import com.zmf.realty.dao.ProjectImageMapper;
 import com.zmf.realty.dao.ProjectMapper;
-import com.zmf.realty.model.HouseType;
-import com.zmf.realty.model.HouseTypeImage;
-import com.zmf.realty.model.ProjectImage;
-import com.zmf.realty.model.ProjectWithBLOBs;
+import com.zmf.realty.model.*;
 import com.zmf.realty.service.dto.DtoService;
 import com.zmf.realty.service.encryption.EncryptionService;
 import com.zmf.realty.service.file.FileService;
@@ -49,6 +48,8 @@ public class DtoServiceImpl implements DtoService {
     private ProjectMapper projectDao;
     @Autowired
     private ProjectImageMapper projectImageDao;
+    @Autowired
+    private MessageMapper messageDao;
 
     @Override
     public List<ProjectDto> buildAllProjectDto() {
@@ -77,6 +78,11 @@ public class DtoServiceImpl implements DtoService {
     }
 
     @Override
+    public MessageDto buildMessageDto(String messageId) {
+        return convertFromMessage(messageDao.selectByPrimaryKey(messageId));
+    }
+
+    @Override
     public ImageDto buildImageDtoByProjectImageId(String projectImageId) {
         return convertFromProjectImage(projectImageService.getImageById(projectImageId));
     }
@@ -84,6 +90,16 @@ public class DtoServiceImpl implements DtoService {
     @Override
     public ImageDto buildImageDtoByHouseTypeImageId(String houseTypeImageId) {
         return convertFromHouseTypeImage(houseTypeImageService.getImageById(houseTypeImageId));
+    }
+
+    @Override
+    public List<MessageDto> buildMessageDtos() {
+        List<Message> messages = messageDao.getAllMessages();
+        List<MessageDto> dtos = new ArrayList<>();
+        for (Message message : messages) {
+            dtos.add(convertFromMessage(message));
+        }
+        return dtos;
     }
 
     @Override
@@ -148,6 +164,12 @@ public class DtoServiceImpl implements DtoService {
         dto.setLocation(project.getLocation());
         dto.setHouseTypeIds(convertFromHouseTypeList(houseTypeService.getAllHouseTypesByProjectId(project.getProjectId())));
         dto.setShow(project.getIsShow());
+        List<String> messageIds = messageDao.getAllMessageIdsByProjectId(project.getProjectId());
+        List<String> encrypted = new ArrayList<>();
+        for (String messageId: messageIds) {
+            encrypted.add(encryptionService.encrypt(messageId));
+        }
+        dto.setMessageIds(encrypted);
         return dto;
     }
 
@@ -207,6 +229,20 @@ public class DtoServiceImpl implements DtoService {
         ImageDto dto = new ImageDto();
         dto.setUrl(fileService.mapImagePathToUrl(houseTypeImage.getFilepath()));
         dto.setImageId(encryptionService.encrypt(houseTypeImage.getImageId()));
+        return dto;
+    }
+
+    private MessageDto convertFromMessage(Message message) {
+        MessageDto dto = new MessageDto();
+        ProjectWithBLOBs project = projectDao.selectByPrimaryKey(message.getProjectId());
+        dto.setCall(message.getCall());
+        dto.setTime(message.getDatetime().toString());
+        dto.setProjectId(encryptionService.encrypt(message.getProjectId()));
+        dto.setPhone(message.getPhone());
+        dto.setMessageId(encryptionService.encrypt(message.getMessageId()));
+        dto.setRead(message.getIsReaded());
+        dto.setContent(message.getContent());
+        dto.setProjectName(project.getName());
         return dto;
     }
 }

@@ -2,7 +2,9 @@ package com.zmf.realty.service.dto;
 
 import com.zmf.realty.apiDto.HouseTypeDto;
 import com.zmf.realty.apiDto.ImageDto;
+import com.zmf.realty.apiDto.MessageDto;
 import com.zmf.realty.apiDto.ProjectDto;
+import com.zmf.realty.model.Message;
 
 import java.util.List;
 
@@ -35,6 +37,15 @@ public interface DtoService {
      */
     HouseTypeDto buildHouseTypeDto(String houseTypeId);
 
+
+    /**
+     * build message dto by id
+     *
+     * @param messageId message id
+     * @return the dto
+     */
+    MessageDto buildMessageDto(String messageId);
+
     /**
      * build image dto by project id
      *
@@ -50,6 +61,14 @@ public interface DtoService {
      * @return image dto
      */
     ImageDto buildImageDtoByHouseTypeImageId(String houseTypeId);
+
+
+    /**
+     * build all message dto.
+     *
+     * @return the list containing all dtos.
+     */
+    List<MessageDto> buildMessageDtos();
 
     /**
      * build carousels for home page

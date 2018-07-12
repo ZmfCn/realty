@@ -25,14 +25,34 @@ public interface MessageService {
     void deleteMessage(String messageId);
 
     /**
+     * get message by message id
+     *
+     * @param messageId the id
+     * @return the message
+     */
+    Message getMessage(String messageId);
+
+    /**
      * get all messages that aren't read
+     *
+     * @return the list
      */
     List<Message> getAllUnreadMessages();
 
     /**
      * get all messages that are read
+     *
+     * @return the list
      */
     List<Message> getAllReadMessages();
+
+
+    /**
+     * get all messages
+     *
+     * @return the list
+     */
+    List<Message> getAllMessages();
 
     /**
      * set the status of the message read by message id
@@ -44,11 +64,22 @@ public interface MessageService {
     /**
      * build house type by values
      *
-     * @param openid      user openid
-     * @param content     content
-     * @param isReaded    is the message readed
-     * @param houseTypeId house type id
+     * @param messageId message id
+     * @param projectId project id
+     * @param content   content
+     * @param phone     the phone
+     * @param call      the call of the people who leaves the message
+     * @param isRead    is the message read
      * @return the instance
      */
-    Message buildMessage(String openid, String content, Boolean isReaded, String houseTypeId);
+    Message buildMessage(String messageId, String projectId, String content, String phone, String call,
+                         boolean isRead);
+
+    /**
+     * build message from request body
+     *
+     * @param requestBody the request from web
+     * @return the instance
+     */
+    Message buildMessage(String requestBody);
 }
