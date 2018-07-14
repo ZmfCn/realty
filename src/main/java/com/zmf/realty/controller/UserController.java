@@ -56,7 +56,7 @@ public class UserController {
         if (!StringUtils.isEmpty(newPassword) && managerService.isValid(manager)) {
             manager.setManagerPassword(newPassword);
             managerService.updateByName(manager);
-            res.put("success","true");
+            res.put("success", "true");
         } else {
             response.setStatus(400);
             res.put("error", "invalid");

@@ -1,6 +1,7 @@
 package com.zmf.realty.service.jwt.impl;
 
 import com.zmf.realty.model.Manager;
+import com.zmf.realty.service.encryption.EncryptionService;
 import com.zmf.realty.service.jwt.JwtService;
 import com.zmf.realty.service.manager.ManagerService;
 import com.zmf.realty.util.JwtUtil;
@@ -42,6 +43,8 @@ public class JwtServiceImpl implements JwtService {
 
     @Autowired
     private ManagerService managerService;
+    @Autowired
+    private EncryptionService encryptionService;
 
 
     @Test
@@ -65,7 +68,7 @@ public class JwtServiceImpl implements JwtService {
     public String createJwt(Manager manager) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("name", manager.getManagerName());
-        claims.put("password", manager.getManagerPassword());
+        claims.put("password", encryptionService.encrypt(manager.getManagerPassword()));
         logger.info("seconds: " + expiresSecond);
         try {
             return JwtUtil.createJWT(UUID.randomUUID().toString(), expiresSecond, claims, JwtUtil.generalKey(sercet));
@@ -81,7 +84,7 @@ public class JwtServiceImpl implements JwtService {
         try {
             Claims claims = JwtUtil.parseJWT(jwt, JwtUtil.generalKey(sercet));
             manager.setManagerName(claims.get("name", String.class));
-            manager.setManagerPassword(claims.get("password", String.class));
+            manager.setManagerPassword(encryptionService.decrypt(claims.get("password", String.class)));
             return manager;
         } catch (Exception e) {
             e.printStackTrace();

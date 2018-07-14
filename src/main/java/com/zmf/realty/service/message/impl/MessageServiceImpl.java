@@ -1,5 +1,6 @@
 package com.zmf.realty.service.message.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zmf.realty.dao.MessageMapper;
 import com.zmf.realty.model.Message;
@@ -57,7 +58,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void setMessageRead(String messageId) {
+    public void setMessageRead(String messageId, String requestBody) {
+        Message message = new Message();
+        JSONObject jsonObject = JSON.parseObject(requestBody);
+        message.setIsReaded(Boolean.valueOf(jsonObject.getString("is_read")));
+        message.setMessageId(messageId);
+        messageDao.updateByPrimaryKeySelective(message);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.zmf.realty.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zmf.realty.annotation.IdDecryption;
-import com.zmf.realty.annotation.ManagerRequired;
 import com.zmf.realty.apiDto.MessageDto;
 import com.zmf.realty.model.Message;
 import com.zmf.realty.service.dto.DtoService;
@@ -52,6 +51,13 @@ public class MessageController {
     @IdDecryption
     @GetMapping(value = "/{messageId}")
     public String getMessage(@PathVariable String messageId) {
+        return JSON.toJSONString(dtoService.buildMessageDto(messageId));
+    }
+
+    @IdDecryption
+    @PutMapping(value = "/{messageId}")
+    public String setMessageRead(@PathVariable String messageId, @RequestBody String requestBody) {
+        messageService.setMessageRead(messageId, requestBody);
         return JSON.toJSONString(dtoService.buildMessageDto(messageId));
     }
 }

@@ -57,9 +57,10 @@ public interface MessageService {
     /**
      * set the status of the message read by message id
      *
-     * @param messageId message id
+     * @param messageId   message id
+     * @param requestBody the request body
      */
-    void setMessageRead(String messageId);
+    void setMessageRead(String messageId, String requestBody);
 
     /**
      * build house type by values
