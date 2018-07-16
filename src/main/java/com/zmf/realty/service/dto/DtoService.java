@@ -70,6 +70,14 @@ public interface DtoService {
      */
     List<MessageDto> buildMessageDtos();
 
+
+    /**
+     * build message dto by conditions
+     * @param requestBody request body
+     * @return  dtos
+     */
+    List<MessageDto> buildMessageDtosByCondition(String requestBody);
+
     /**
      * build carousels for home page
      *

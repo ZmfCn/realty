@@ -7,10 +7,14 @@ import com.zmf.realty.model.Message;
 import com.zmf.realty.service.encryption.EncryptionService;
 import com.zmf.realty.service.message.MessageService;
 import com.zmf.realty.util.IdUtil;
+import com.zmf.realty.whereCondition.MessageWhereCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -43,6 +47,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public List<Message> getMessagesByCondition(MessageWhereCondition condition) {
+        return messageDao.selectMessageByCondition(condition);
+    }
+
+    @Override
     public List<Message> getAllUnreadMessages() {
         return null;
     }
@@ -61,7 +70,7 @@ public class MessageServiceImpl implements MessageService {
     public void setMessageRead(String messageId, String requestBody) {
         Message message = new Message();
         JSONObject jsonObject = JSON.parseObject(requestBody);
-        message.setIsReaded(Boolean.valueOf(jsonObject.getString("is_read")));
+        message.setIsRead(Boolean.valueOf(jsonObject.getString("is_read")));
         message.setMessageId(messageId);
         messageDao.updateByPrimaryKeySelective(message);
     }
@@ -74,7 +83,7 @@ public class MessageServiceImpl implements MessageService {
         message.setContent(content);
         message.setPhone(phone);
         message.setCall(call);
-        message.setIsReaded(false);
+        message.setIsRead(false);
         return message;
     }
 
@@ -85,5 +94,22 @@ public class MessageServiceImpl implements MessageService {
                 encryptionService.decrypt(jsonObject.getString("project_id")),
                 jsonObject.getString("content"), jsonObject.getString("phone"),
                 jsonObject.getString("call"), false);
+    }
+
+    @Override
+    public MessageWhereCondition buildSearchCondition(String requestBody) {
+        JSONObject jsonObject = JSON.parseObject(requestBody);
+        MessageWhereCondition condition = new MessageWhereCondition();
+        condition.setPhone(jsonObject.getString("phone"));
+        condition.setIsRead(jsonObject.getBoolean("is_read"));
+        condition.setContent(jsonObject.getString("content"));
+        condition.setCall(jsonObject.getString("call"));
+        try {
+            String date = jsonObject.getString("after");
+            condition.setAfter(date == null ? null : new Timestamp(new SimpleDateFormat("yyyy-mm-dd").parse(date).getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return condition;
     }
 }

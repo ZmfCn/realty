@@ -1,6 +1,7 @@
 package com.zmf.realty.dao;
 
 import com.zmf.realty.model.Message;
+import com.zmf.realty.whereCondition.MessageWhereCondition;
 
 import java.util.List;
 
@@ -19,6 +20,15 @@ public interface MessageMapper {
      * This method corresponds to the database table message
      */
     Message selectByPrimaryKey(String messageId);
+
+
+    /**
+     * select the messages by condition.
+     *
+     * @param condition the condition containing where condition for query.
+     * @return the list of message.
+     */
+    List<Message> selectMessageByCondition(MessageWhereCondition condition);
 
 
     /**

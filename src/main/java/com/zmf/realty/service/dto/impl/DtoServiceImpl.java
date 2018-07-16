@@ -14,8 +14,11 @@ import com.zmf.realty.service.file.FileService;
 import com.zmf.realty.service.follow.FollowService;
 import com.zmf.realty.service.houseType.HouseTypeService;
 import com.zmf.realty.service.houseTypeImage.HouseTypeImageService;
+import com.zmf.realty.service.message.MessageService;
 import com.zmf.realty.service.project.ProjectService;
 import com.zmf.realty.service.projectImage.ProjectImageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +53,9 @@ public class DtoServiceImpl implements DtoService {
     private ProjectImageMapper projectImageDao;
     @Autowired
     private MessageMapper messageDao;
+    @Autowired
+    private MessageService messageService;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public List<ProjectDto> buildAllProjectDto() {
@@ -95,6 +101,16 @@ public class DtoServiceImpl implements DtoService {
     @Override
     public List<MessageDto> buildMessageDtos() {
         List<Message> messages = messageDao.getAllMessages();
+        List<MessageDto> dtos = new ArrayList<>();
+        for (Message message : messages) {
+            dtos.add(convertFromMessage(message));
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<MessageDto> buildMessageDtosByCondition(String requestBody) {
+        List<Message> messages = messageService.getMessagesByCondition(messageService.buildSearchCondition(requestBody));
         List<MessageDto> dtos = new ArrayList<>();
         for (Message message : messages) {
             dtos.add(convertFromMessage(message));
@@ -240,7 +256,8 @@ public class DtoServiceImpl implements DtoService {
         dto.setProjectId(encryptionService.encrypt(message.getProjectId()));
         dto.setPhone(message.getPhone());
         dto.setMessageId(encryptionService.encrypt(message.getMessageId()));
-        dto.setRead(message.getIsReaded());
+        logger.info("null?:" + message.getIsRead());
+        dto.setRead(message.getIsRead());
         dto.setContent(message.getContent());
         dto.setProjectName(project.getName());
         return dto;

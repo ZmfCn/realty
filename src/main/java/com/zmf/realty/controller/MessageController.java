@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @timestamp 2018-07-11 21:32
  */
 @RestController
-@RequestMapping(value = "/api/messages", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/api", produces = "application/json;charset=utf-8")
 public class MessageController {
     @Autowired
     private MessageService messageService;
@@ -28,12 +28,12 @@ public class MessageController {
     private JwtService jwtService;
     private Logger logger = LoggerFactory.getLogger(MessageController.class);
 
-    @GetMapping
+    @GetMapping(value = "/messages")
     public String getAllMessages() {
         return JSON.toJSONString(dtoService.buildMessageDtos());
     }
 
-    @PostMapping()
+    @PostMapping(value = "/messages")
     public String addMessage(@RequestBody String requestBody) {
         Message message = messageService.buildMessage(requestBody);
         messageService.addMessage(message);
@@ -41,7 +41,7 @@ public class MessageController {
     }
 
     @IdDecryption
-    @DeleteMapping(value = "/{messageId}")
+    @DeleteMapping(value = "/messages/{messageId}")
     public String deleteMessage(@PathVariable String messageId) {
         MessageDto dto = dtoService.buildMessageDto(messageId);
         messageService.deleteMessage(messageId);
@@ -49,15 +49,20 @@ public class MessageController {
     }
 
     @IdDecryption
-    @GetMapping(value = "/{messageId}")
+    @GetMapping(value = "/messages/{messageId}")
     public String getMessage(@PathVariable String messageId) {
         return JSON.toJSONString(dtoService.buildMessageDto(messageId));
     }
 
     @IdDecryption
-    @PutMapping(value = "/{messageId}")
+    @PutMapping(value = "/messages/{messageId}")
     public String setMessageRead(@PathVariable String messageId, @RequestBody String requestBody) {
         messageService.setMessageRead(messageId, requestBody);
         return JSON.toJSONString(dtoService.buildMessageDto(messageId));
+    }
+
+    @GetMapping(value = "messages-search")
+    public String messageSearch(@RequestBody String requestBody) {
+        return JSON.toJSONString(dtoService.buildMessageDtosByCondition(requestBody));
     }
 }

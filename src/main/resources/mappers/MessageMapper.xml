@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zmf.realty.model.Message">
         <id column="message_id" property="messageId" jdbcType="VARCHAR"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
-        <result column="is_readed" property="isReaded" jdbcType="BIT"/>
+        <result column="is_read" property="isRead" jdbcType="BIT"/>
         <result column="datetime" property="datetime" jdbcType="TIMESTAMP"/>
         <result column="project_id" property="projectId" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
@@ -12,7 +12,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        message_id, content, is_readed, `datetime`, project_id, phone, `call`
+        message_id, content, is_read, `datetime`, project_id, phone, `call`
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
@@ -36,8 +36,8 @@
             <if test="content != null">
                 content,
             </if>
-            <if test="isReaded != null">
-                is_readed,
+            <if test="isRead != null">
+                is_read,
             </if>
             <if test="datetime != null">
                 `datetime`,
@@ -59,8 +59,8 @@
             <if test="content != null">
                 #{content,jdbcType=VARCHAR},
             </if>
-            <if test="isReaded != null">
-                #{isReaded,jdbcType=BIT},
+            <if test="isRead != null">
+                #{is_read,jdbcType=BIT},
             </if>
             <if test="datetime != null">
                 #{datetime,jdbcType=TIMESTAMP},
@@ -83,8 +83,8 @@
             <if test="content != null">
                 content = #{content,jdbcType=VARCHAR},
             </if>
-            <if test="isReaded != null">
-                is_readed = #{isReaded,jdbcType=BIT},
+            <if test="isRead != null">
+                is_read = #{isRead,jdbcType=BIT},
             </if>
             <if test="datetime != null">
                 `datetime` = #{datetime,jdbcType=TIMESTAMP},
@@ -112,5 +112,29 @@
         FROM message
         WHERE project_id = #{projectId}
         ORDER BY message.datetime DESC
+    </select>
+
+    <select id="selectMessageByCondition" resultMap="BaseResultMap" parameterType="com.zmf.realty.whereCondition.MessageWhereCondition">
+        <bind name="pattern1" value="'%' + _parameter.call + '%'" />
+        <bind name="pattern2" value="'%' + _parameter.content + '%'" />
+        SELECT *
+        FROM message
+            <trim prefix="WHERE" suffixOverrides="AND">
+                <if test="isRead != null">
+                    is_read = #{isRead} AND
+                </if>
+                <if test="phone != null">
+                    phone = #{phone} AND
+                </if>
+                <if test="call != null">
+                    `call` LIKE #{pattern1} AND
+                </if>
+                <if test="content != null">
+                    `content` LIKE #{pattern2} AND
+                </if>
+                <if test="after != null">
+                    `datetime` > #{after} AND
+                </if>
+            </trim>
     </select>
 </mapper>

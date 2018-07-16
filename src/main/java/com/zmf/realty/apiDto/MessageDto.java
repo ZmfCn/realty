@@ -27,6 +27,7 @@ public class MessageDto {
     private String time;
     @JSONField(name = "project_name")
     private String projectName;
+    @JSONField(name = "is_read")
     private boolean isRead;
 
     public String getMessageId() {

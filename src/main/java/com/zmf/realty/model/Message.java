@@ -18,7 +18,7 @@ public class Message {
      * This field corresponds to the database column message.is_readed
      *
      */
-    private Boolean isReaded;
+    private Boolean isRead;
 
     /**
      * This field corresponds to the database column message.datetime
@@ -90,18 +90,18 @@ public class Message {
      * @return the value of message.is_readed
      *
      */
-    public Boolean getIsReaded() {
-        return isReaded;
+    public Boolean getIsRead() {
+        return isRead;
     }
 
     /**
      * This method sets the value of the database column message.is_readed
      *
-     * @param isReaded the value for message.is_readed
+     * @param isRead the value for message.is_readed
      *
      */
-    public void setIsReaded(Boolean isReaded) {
-        this.isReaded = isReaded;
+    public void setIsRead(Boolean isRead) {
+        this.isRead = isRead;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.zmf.realty.service.message;
 
 import com.zmf.realty.model.Message;
+import com.zmf.realty.whereCondition.MessageWhereCondition;
 
 import java.util.List;
 
@@ -31,6 +32,15 @@ public interface MessageService {
      * @return the message
      */
     Message getMessage(String messageId);
+
+
+    /**
+     * select the messages by condition.
+     *
+     * @param condition the condition containing where condition for query.
+     * @return the list of message.
+     */
+    List<Message> getMessagesByCondition(MessageWhereCondition condition);
 
     /**
      * get all messages that aren't read
@@ -83,4 +93,13 @@ public interface MessageService {
      * @return the instance
      */
     Message buildMessage(String requestBody);
+
+
+    /**
+     * build request body from request body
+     *
+     * @param requestBody request body
+     * @return instance
+     */
+    MessageWhereCondition buildSearchCondition(String requestBody);
 }
