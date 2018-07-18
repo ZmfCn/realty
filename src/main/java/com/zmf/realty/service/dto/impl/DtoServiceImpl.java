@@ -256,7 +256,6 @@ public class DtoServiceImpl implements DtoService {
         dto.setProjectId(encryptionService.encrypt(message.getProjectId()));
         dto.setPhone(message.getPhone());
         dto.setMessageId(encryptionService.encrypt(message.getMessageId()));
-        logger.info("null?:" + message.getIsRead());
         dto.setRead(message.getIsRead());
         dto.setContent(message.getContent());
         dto.setProjectName(project.getName());

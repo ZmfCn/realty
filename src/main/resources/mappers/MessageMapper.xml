@@ -60,7 +60,7 @@
                 #{content,jdbcType=VARCHAR},
             </if>
             <if test="isRead != null">
-                #{is_read,jdbcType=BIT},
+                #{isRead,jdbcType=BIT},
             </if>
             <if test="datetime != null">
                 #{datetime,jdbcType=TIMESTAMP},
@@ -115,25 +115,26 @@
     </select>
 
     <select id="selectMessageByCondition" resultMap="BaseResultMap" parameterType="com.zmf.realty.whereCondition.MessageWhereCondition">
-        <bind name="pattern1" value="'%' + _parameter.call + '%'" />
-        <bind name="pattern2" value="'%' + _parameter.content + '%'" />
         SELECT *
         FROM message
             <trim prefix="WHERE" suffixOverrides="AND">
-                <if test="isRead != null">
+                <if test="isReadEmpty != true">
                     is_read = #{isRead} AND
                 </if>
                 <if test="phone != null">
                     phone = #{phone} AND
                 </if>
                 <if test="call != null">
-                    `call` LIKE #{pattern1} AND
+                    `call` LIKE concat('%',#{call}, '%') AND
                 </if>
                 <if test="content != null">
-                    `content` LIKE #{pattern2} AND
+                    `content` LIKE concat('%', #{content}, '%') AND
                 </if>
                 <if test="after != null">
                     `datetime` > #{after} AND
+                </if>
+                <if test="projectId != null">
+                    project_id = #{projectId} AND
                 </if>
             </trim>
     </select>

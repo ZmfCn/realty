@@ -61,7 +61,7 @@ public class MessageController {
         return JSON.toJSONString(dtoService.buildMessageDto(messageId));
     }
 
-    @GetMapping(value = "messages-search")
+    @PostMapping(value = "messages-search")
     public String messageSearch(@RequestBody String requestBody) {
         return JSON.toJSONString(dtoService.buildMessageDtosByCondition(requestBody));
     }

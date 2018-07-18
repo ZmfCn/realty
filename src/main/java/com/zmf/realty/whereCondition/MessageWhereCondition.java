@@ -13,6 +13,8 @@ public class MessageWhereCondition {
     private String call;
     private String content;
     private Timestamp after;
+    private String projectId;
+    private boolean isReadEmpty;
 
     public boolean getIsRead() {
         return isRead;
@@ -52,5 +54,21 @@ public class MessageWhereCondition {
 
     public void setAfter(Timestamp after) {
         this.after = after;
+    }
+
+    public boolean isReadEmpty() {
+        return isReadEmpty;
+    }
+
+    public void setReadEmpty(boolean readEmpty) {
+        isReadEmpty = readEmpty;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 }

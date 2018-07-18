@@ -15,8 +15,8 @@ import java.util.Map;
  * @description
  * @timestamp 2018-07-12 12:14
  */
-@RestController
-@RequestMapping(value = "/api/errors", produces = "application/json;charset=utf-8")
+//@RestController
+//@RequestMapping(value = "/api/errors", produces = "application/json;charset=utf-8")
 public class ErrorController {
     @RequestMapping(value = "/invalid", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
     public String invalidError(HttpServletResponse response) {

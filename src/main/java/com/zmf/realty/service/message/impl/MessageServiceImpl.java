@@ -101,9 +101,17 @@ public class MessageServiceImpl implements MessageService {
         JSONObject jsonObject = JSON.parseObject(requestBody);
         MessageWhereCondition condition = new MessageWhereCondition();
         condition.setPhone(jsonObject.getString("phone"));
-        condition.setIsRead(jsonObject.getBoolean("is_read"));
+        String isRead = jsonObject.getString("is_read");
+        if (isRead != null) {
+            condition.setReadEmpty(false);
+            condition.setIsRead(Boolean.valueOf(isRead));
+        } else {
+            condition.setReadEmpty(true);
+        }
         condition.setContent(jsonObject.getString("content"));
         condition.setCall(jsonObject.getString("call"));
+        String projectId = jsonObject.getString("project_id");
+        condition.setProjectId(projectId == null ? null : encryptionService.decrypt(projectId));
         try {
             String date = jsonObject.getString("after");
             condition.setAfter(date == null ? null : new Timestamp(new SimpleDateFormat("yyyy-mm-dd").parse(date).getTime()));

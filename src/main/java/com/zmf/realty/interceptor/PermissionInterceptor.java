@@ -37,6 +37,8 @@ public class PermissionInterceptor implements HandlerInterceptor {
             return true;
         } else if (method.equals(HttpMethod.POST.toString()) && request.getRequestURI().equals("/api/messages")) {
             return true;
+        } else if (method.equals(HttpMethod.POST.toString()) && request.getRequestURI().equals("/api/messages-search")) {
+            return true;
         } else {
             if (jwtService.isValid(request.getHeader("x-auth-token"))) {
                 return true;
